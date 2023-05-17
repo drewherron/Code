@@ -20,6 +20,10 @@ int ask(int y, int x)
         return field[y][x];
     }
 
+    //OR
+    //if (x < 0 || y < 0)
+    //    return 0;
+
     int a = -1;
     int b = -1;
 
@@ -31,7 +35,8 @@ int ask(int y, int x)
     return field[y][x] + max(a, b);
 }
 
-int main() {
+int main()
+{
 
     int result = 0;
 
