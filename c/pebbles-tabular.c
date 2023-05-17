@@ -11,45 +11,14 @@
 
 int field[HEIGHT][WIDTH];
 
-int memo[HEIGHT][WIDTH];
-
-char arrows[HEIGHT + WIDTH - 2] = {'x'};
-
-int ask(int y, int x)
-{
-    if (memo[y][x] != -1)
-    {
-        return memo[y][x];
-    } else {
-        if (y == 0 && x == 0)
-        {
-            return field[y][x];
-        }
-
-        //OR
-        //if (x < 0 || y < 0)
-        //    return 0;
-
-        int a = -1;
-        int b = -1;
-
-        if (x > 0)
-            a = ask(y, x-1);
-        if (y > 0)
-            b = ask(y-1, x);
-
-        memo[y][x] = field[y][x] + max(a, b);
-        return memo[y][x];
-    }
-}
+int table[HEIGHT+1][WIDTH+1];
 
 int main()
 {
-
     int result = 0;
 
+    // Random pebbles
     srand(time(NULL));
-
     for (int i = 0; i < HEIGHT; i++)
     {
         for (int j = 0; j < WIDTH; j++)
@@ -57,16 +26,32 @@ int main()
             field[i][j] = rand() % 2;
         }
     }
-
+    // Fill buffer column
     for (int i = 0; i < HEIGHT; i++)
     {
-        for (int j = 0; j < WIDTH; j++)
+        table[i][0] = 0;
+    }
+    // Fill buffer row
+    for (int i = 0; i < WIDTH; i++)
+    {
+        table[0][i] = 0;
+    }
+    // Pebbles to table
+    for (int i = 1; i <= HEIGHT; i++)
+    {
+        for (int j = 1; j <= WIDTH; j++)
         {
-            memo[i][j] = -1;
+            table[i][j] = field[i][j];
         }
     }
-
-    result = ask(HEIGHT-1, WIDTH-1);
+    // Calculate table
+    for (int i = 1; i <= HEIGHT; i++)
+    {
+        for (int j = 1; j <= WIDTH; j++)
+        {
+            table[i][j] = field[i][j] + max(table[i-1][j], table[i][j-1]);
+        }
+    }
 
     printf("\nField:\n");
 
@@ -78,17 +63,17 @@ int main()
         }
         printf("\n");
     }
-    printf("\nMemo table:\n");
-    for (int i = 0; i < HEIGHT; i++)
+    printf("\nTabulation:\n");
+    for (int i = 1; i <= HEIGHT; i++)
     {
-        for (int j = 0; j < WIDTH; j++)
+        for (int j = 1; j <= WIDTH; j++)
         {
-            memo[i][j] == -1 ? printf("1 ") : printf("%d ", memo[i][j]);
+            printf("%d ", table[i][j]);
         }
         printf("\n");
     }
 
-    printf("\nMax pebbles:\t%d\n", result);
+    printf("\nMax pebbles:\t%d\n", table[HEIGHT][WIDTH]);
 
     //printf("Using path:\t");
     //for (int i = 0; i < (HEIGHT + WIDTH - 2); i++)
