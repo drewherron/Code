@@ -22,19 +22,19 @@ int ask(int y, int x)
 
     int a = -1;
     int b = -1;
-    
+
     if (x > 0)
         a = ask(y, x-1);
     if (y > 0)
         b = ask(y-1, x);
-   
+
     return field[y][x] + max(a, b);
 }
 
 int main() {
 
     int result = 0;
-    
+
     srand(time(NULL));
 
     for (int i = 0; i < HEIGHT; i++)
@@ -44,7 +44,7 @@ int main() {
             field[i][j] = rand() % 2;
         }
     }
-  
+
     for (int i = 0; i < HEIGHT; i++)
     {
         for (int j = 0; j < WIDTH; j++)
