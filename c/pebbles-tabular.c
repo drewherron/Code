@@ -37,11 +37,11 @@ int main()
         table[0][i] = 0;
     }
     // Pebbles to table
-    for (int i = 1; i <= HEIGHT; i++)
+    for (int i = 0; i < HEIGHT; i++)
     {
-        for (int j = 1; j <= WIDTH; j++)
+        for (int j = 0; j < WIDTH; j++)
         {
-            table[i][j] = field[i][j];
+            table[i+1][j+1] = field[i][j];
         }
     }
     // Calculate table
@@ -49,7 +49,7 @@ int main()
     {
         for (int j = 1; j <= WIDTH; j++)
         {
-            table[i][j] = field[i][j] + max(table[i-1][j], table[i][j-1]);
+            table[i][j] = field[i-1][j-1] + max(table[i-1][j], table[i][j-1]);
         }
     }
 
