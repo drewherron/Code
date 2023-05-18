@@ -52,9 +52,8 @@ int main()
             table[i][j] = field[i-1][j-1] + max(table[i-1][j], table[i][j-1]);
         }
     }
-
+    // Print field
     printf("\nField:\n");
-
     for (int i = 0; i < HEIGHT; i++)
     {
         for (int j = 0; j < WIDTH; j++)
@@ -63,6 +62,7 @@ int main()
         }
         printf("\n");
     }
+    // Print tabulation
     printf("\nTabulation:\n");
     for (int i = 1; i <= HEIGHT; i++)
     {
@@ -72,14 +72,7 @@ int main()
         }
         printf("\n");
     }
+    printf("\nMax pebbles:\t%d\n\n", table[HEIGHT][WIDTH]);
 
-    printf("\nMax pebbles:\t%d\n", table[HEIGHT][WIDTH]);
-
-    //printf("Using path:\t");
-    //for (int i = 0; i < (HEIGHT + WIDTH - 2); i++)
-    //{
-    //    printf("%c ", arrows[i]);
-    //}
-    //printf("\n\n");
     return 0;
 }
