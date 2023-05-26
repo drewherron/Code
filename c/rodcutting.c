@@ -5,58 +5,44 @@
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
 #endif
 
-//int cut_rod(int price[], int n)
-//{
-//    int *val = (int*) malloc((n+1)*sizeof(int));
-//    val[0] = 0;
-//
-//    for (int i = 1; i<=n; i++)
-//    {
-//        int max_val = -1;
-//
-//        for (int j = 0; j < i; j++)
-//        {
-//            max_val = max(max_val, price[j] + val[i-j-1]);
-//        }
-//        val[i] = max_val;
-//    }
-//    return val[n];
-//}
+void main()
+{
+    int prices[] = {1, 5, 8, 9, 10, 17, 17, 20};
+    int n = sizeof(prices)/sizeof(prices[0]);
+    int price_table[n+1], cuts[n+1];
+    int i, j, r;
 
-int main() {
-    int price_list[] = {1, 3, 4, 6, 9, 14, 17, 20, 23, 25};
-//    int r = sizeof(arr)/sizeof(arr[0]);
-    int r, max_val = 0;
-    int cuts[price_list];
+    // Initialize the price_table array
+    for (i = 0; i <= n; i++)
+        price_table[i] = 0;
 
-    // Make table
-    int list_len = 10;
-    int table[list_len];
-    for (int i = 0; i <= list_len; i++)
+    // Build up price_table[] and cuts[]
+    for (i = 1; i <= n; i++)
     {
-        table[i] = 0;
-    }
+        int max_val = -1;
 
-    for (int i = 1; i <=list_len; i++)
-    {
-        for (int j = 1; j <= i; j++)
+        for (j = 1; j <= i; j++)
         {
-            max_val = max(table[i], price_list[j] + table[j-i]);
+            if (max_val < prices[j-1] + price_table[i-j])
+            {
+                max_val = prices[j-1] + price_table[i-j];
+                cuts[i] = j;
+            }
         }
-        table[i] = max_val;
-
+        price_table[i] = max_val;
     }
-
-    
-
-    printf("Enter length of rod (max 10): ");
+    // Get length from user
+    printf("Length of rod: ");
     scanf("%d", &r);
 
-    printf("Max price:\t%\n", table[r]);
+    // Print the optimal value
+    printf("Maximum obtainable value is %d\n", price_table[r]);
 
-    
-    return 0;
+    // Print the cuts
+    printf("Cuts: ");
+    while (r > 0) {
+        printf("%d ", cuts[r]);
+        r = r - cuts[r];
+    }
+    printf("\n");
 }
-
-
-//    printf("Max price:\t%\n", cut_rod(price_list, r));
