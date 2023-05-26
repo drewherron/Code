@@ -1,13 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef max
-#define max(a,b)            (((a) > (b)) ? (a) : (b))
-#endif
-
-void main()
+int main()
 {
-    int prices[] = {1, 5, 8, 9, 10, 17, 17, 20};
+    int prices[] = {1, 3, 5, 6, 9, 10, 17, 18, 20, 25};
     int n = sizeof(prices)/sizeof(prices[0]);
     int price_table[n+1], cuts[n+1];
     int i, j, r;
@@ -34,15 +30,28 @@ void main()
     // Get length from user
     printf("Length of rod: ");
     scanf("%d", &r);
+    if (r < 0 || r > n)
+    {
+        printf("\nInvalid input!\n\n");
+        return 1;
+    }
+
+    // Print prices for reference
+    printf("Prices: ");
+    for (int i = 0; i < n; i++)
+        printf("%d ", prices[i]);
 
     // Print the optimal value
-    printf("Maximum obtainable value is %d\n", price_table[r]);
+    printf("\nMaximum sale price: %d\n", price_table[r]);
 
     // Print the cuts
-    printf("Cuts: ");
-    while (r > 0) {
+    printf("With cuts: ");
+    while (r > 0)
+    {
         printf("%d ", cuts[r]);
         r = r - cuts[r];
     }
     printf("\n");
+
+    return 0;
 }
