@@ -1,40 +1,26 @@
 ;; test-website.lisp
 
-(asdf:load-systems '("hunchentoot" "spinneret" "lass"))
+(ql:quickload '("hunchentoot" "cl-who"))
 
-(ql:quickload "hunchentoot")
-(ql:quickload "spinneret")
-(ql:quickload "lass")
+(defpackage :test-website
+  (:use :cl :hunchentoot :cl-who))
 
-(use-package :hunchentoot)
-(use-package :spinneret)
-(use-package :lass)
+(in-package :test-website)
 
 (defun start-server ()
   (let ((dispatcher (make-instance 'easy-acceptor :port 4242)))
-    (setf (hunchentoot:acceptor-dispatch-table dispatcher)
-          (list (create-regex-dispatcher "^/$" 'index-page)
-                (create-regex-dispatcher "^/about$" 'about-page)
-                (create-regex-dispatcher "^/contact$" 'contact-page)))
     (start dispatcher)))
 
-(defun index-page (request)
-  (spinneret:with-html-output-to-string (s)
+(define-easy-handler (index-page :uri "/") ()
+  (with-html-output-to-string (s nil :prologue t :indent t)
     (:html
-     (:head
-       (:title "Home"))
+     (:head (:title "Home"))
      (:body
-       (:h1 "Welcome to My Website")
-       (:p "This is a paragraph on my home page.")
-       (:ul
-         (:li "First item")
-         (:li "Second item")
-         (:li "Third item"))
-       (:p "Here is a link to " (:a :href "/about" "the About page") ".")
-     ))))
+      (:h1 "Welcome to My Website")
+      (:p "This is a paragraph on my home page.")))))
 
-(defun about-page (request)
-  (spinneret:with-html-output-to-string (s)
+(define-easy-handler (about-page :uri "/about") ()
+  (with-html-output-to-string (s nil :prologue t :indent t)
     (:html
      (:head
        (:title "About"))
@@ -49,8 +35,8 @@
        (:p "Thank you for visiting my website!")
      ))))
 
-(defun contact-page (request)
-  (spinneret:with-html-output-to-string (s)
+(define-easy-handler (contact-page :uri "/contact") ()
+  (with-html-output-to-string (s nil :prologue t :indent t)
     (:html
      (:head
        (:title "Contact"))
