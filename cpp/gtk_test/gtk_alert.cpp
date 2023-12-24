@@ -1,5 +1,7 @@
 // g++ gtk_alert.cpp `pkg-config --cflags --libs gtk+-3.0` -o gtk_alert
 
+// Why such bad memory usage?
+
 #include <gtk/gtk.h>
 
 static void on_submit_clicked(GtkWidget *submit_button, gpointer data) {
